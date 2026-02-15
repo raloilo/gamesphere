@@ -1,0 +1,383 @@
+.game-details {
+  min-height: 100vh;
+}
+
+.game-hero {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.game-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.4);
+}
+
+.game-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-primary) 0%, transparent 50%);
+}
+
+.game-hero-content {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.game-hero-info h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.game-meta .category {
+  color: var(--accent-cyan);
+}
+
+.game-rating-large {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.game-rating-large .stars {
+  color: var(--accent-green);
+}
+
+.game-rating-large .count {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.btn-bookmark {
+  padding: 0.5rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 8px;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-bookmark.active {
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+}
+
+.btn-bookmark:hover {
+  transform: scale(1.02);
+}
+
+.game-body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 3rem;
+}
+
+.game-main section {
+  margin-bottom: 2.5rem;
+}
+
+.game-main h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.game-main p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.trailers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.trailer-label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-cyan);
+}
+
+.trailer-container {
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.trailer-container iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.screenshots-grid img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Community section */
+.community-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.community-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.community-form input,
+.community-form textarea {
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.community-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.community-form button[type="submit"] {
+  padding: 0.75rem;
+  background: var(--accent-cyan);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg-primary);
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.community-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.community-empty {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 2rem;
+  text-align: center;
+}
+
+.community-post {
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+
+.community-post:hover {
+  border-color: var(--accent-cyan);
+}
+
+.community-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.community-post-author {
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.community-post-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.community-post-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.community-post-content {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.review-rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.review-rating button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.review-rating button.active {
+  color: var(--accent-green);
+}
+
+.review-form input,
+.review-form textarea {
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.review-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.review-form button[type="submit"] {
+  padding: 0.75rem;
+  background: var(--gradient-game);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-card {
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.report-btn {
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.report-btn:hover {
+  color: var(--accent-orange);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.review-user {
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.review-rating {
+  color: var(--accent-green);
+}
+
+.review-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.review-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.login-prompt {
+  margin-bottom: 1rem;
+}
+
+.login-prompt a {
+  color: var(--accent-cyan);
+}
+
+.sidebar-block {
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.sidebar-block h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.news-link {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+.news-link:last-child {
+  border-bottom: none;
+}
+
+.news-link:hover {
+  color: var(--accent-cyan);
+}
+
+@media (max-width: 900px) {
+  .game-body {
+    grid-template-columns: 1fr;
+  }
+}
