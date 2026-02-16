@@ -40,7 +40,7 @@ export default function Home() {
       <section className="section trending-section">
         <h2>Trending Games</h2>
         <div className="game-grid">
-          {trending.map(game => (
+          {(Array.isArray(trending) ? trending : []).map(game => (
             <GameCard key={game._id} game={game} />
           ))}
         </div>
@@ -52,7 +52,7 @@ export default function Home() {
           <Link to="/news" className="see-all">See All →</Link>
         </div>
         <div className="news-grid">
-          {news.map(item => (
+          {(Array.isArray(news) ? news : []).map(item => (
             <Link key={item._id} to="/news" className="news-card">
               <div className="news-card-image">
                 <img src={item.image} alt={item.title} />

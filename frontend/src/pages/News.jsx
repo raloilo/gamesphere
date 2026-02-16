@@ -22,7 +22,7 @@ export default function News() {
         <p>Latest updates from the gaming world</p>
       </div>
       <div className="news-list">
-        {news.map(item => (
+        {(Array.isArray(news) ? news : []).map(item => (
           <article key={item._id} className="news-article">
             <div className="news-article-image">
               <img src={item.image} alt={item.title} />

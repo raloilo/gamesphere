@@ -273,7 +273,7 @@ export default function Admin() {
           </form>
 
           <div className="admin-list">
-            {games.map(g => (
+            {(Array.isArray(games) ? games : []).map(g => (
               <div key={g._id} className="admin-item">
                 <img src={g.coverImage} alt="" />
                 <div>
@@ -344,7 +344,7 @@ export default function Admin() {
           </form>
 
           <div className="admin-list">
-            {news.map(n => (
+            {(Array.isArray(news) ? news : []).map(n => (
               <div key={n._id} className="admin-item">
                 <img src={n.image} alt="" />
                 <div>
@@ -365,8 +365,8 @@ export default function Admin() {
         <div className="admin-section">
           <h3>Signalements</h3>
           <div className="admin-list reports-list">
-            {reports.length === 0 && !loading && <p>Aucun signalement.</p>}
-            {reports.map(r => (
+            {(Array.isArray(reports) ? reports : []).length === 0 && !loading && <p>Aucun signalement.</p>}
+            {(Array.isArray(reports) ? reports : []).map(r => (
               <div key={r._id} className="admin-item report-item">
                 <div className="report-info">
                   <span><strong>Par:</strong> {r.reporter?.username ?? r.reporter}</span>
@@ -383,7 +383,7 @@ export default function Admin() {
                       const status = e.target.value;
                       try {
                         await api.patch(`/admin/reports/${r._id}`, { status });
-                        setReports(prev => prev.map(x => x._id === r._id ? { ...x, status } : x));
+                        setReports(prev => (Array.isArray(prev) ? prev : []).map(x => x._id === r._id ? { ...x, status } : x));
                         if (stats && r.status === 'pending' && status !== 'pending') {
                           setStats(s => ({ ...s, reportsPending: Math.max(0, (s.reportsPending ?? 0) - 1) }));
                         }

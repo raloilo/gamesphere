@@ -73,7 +73,7 @@ export default function GamesLibrary() {
         <div className="page-loading">Loading...</div>
       ) : (
         <div className="game-grid">
-          {games.length ? games.map(game => (
+          {Array.isArray(games) && games.length ? games.map(game => (
             <GameCard key={game._id} game={game} />
           )) : (
             <p className="empty-state">No games found. Try adjusting your filters.</p>
