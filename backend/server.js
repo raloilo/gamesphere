@@ -19,16 +19,16 @@ const app = express();
 // Security Middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: false // Disable CSP for simplicity in this demo, enable for prod
+  contentSecurityPolicy: false
 }));
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://gamesphere-d812f.web.app', 'https://gamesphere-d812f.firebaseapp.com']
+    : 'http://localhost:3000',
+  credentials: true
+}));
 
-app.use(cors());
 app.use(express.json());
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesphere';
