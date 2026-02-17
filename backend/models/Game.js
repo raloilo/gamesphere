@@ -51,12 +51,14 @@ const gameSchema = new mongoose.Schema({
   screenshots: [{
     type: String
   }],
-  trailerUrl: {
-    type: String
+  website: {
+    type: String,
+    trim: true
   },
-  trailerUrl2: {
-    type: String
-  },
+  languages: [{
+    type: String,
+    trim: true
+  }],
   trailerUrls: [{
     type: String
   }],

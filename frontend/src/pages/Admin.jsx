@@ -323,6 +323,19 @@ export default function Admin() {
 
                   <div className="form-group">
                     <input
+                      placeholder="URL du site officiel"
+                      value={form.website || ''}
+                      onChange={e => setForm(f => ({ ...f, website: e.target.value }))}
+                    />
+                    <input
+                      placeholder="Langues (ex: Anglais, Français)"
+                      value={Array.isArray(form.languages) ? form.languages.join(', ') : (form.languages || '')}
+                      onChange={e => setForm(f => ({ ...f, languages: e.target.value.split(',').map(s => s.trim()) }))}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <input
                       placeholder="URL Trailer YouTube 1"
                       value={form.trailerUrl || ''}
                       onChange={e => setForm(f => ({ ...f, trailerUrl: e.target.value }))}
