@@ -11,6 +11,8 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -29,6 +31,11 @@ export default function Admin() {
       setNews(results[1].data);
       setStats(results[2].data);
       if (results[3]) setReports(results[3].data);
+
+      if (activeTab === 'users') {
+        const usersRes = await api.get('/admin/users');
+        setUsers(usersRes.data);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -75,6 +82,36 @@ export default function Admin() {
       loadData();
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleBanUser = async (id) => {
+    try {
+      await api.patch(`/admin/users/${id}/ban`);
+      loadData();
+    } catch (e) {
+      alert(e.response?.data?.message || 'Error banning user');
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('coverImage', file);
+
+    setUploading(true);
+    try {
+      const { data } = await api.post('/admin/games/upload-cover', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setForm(f => ({ ...f, coverImage: data.url }));
+    } catch (e) {
+      console.error(e);
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -126,6 +163,12 @@ export default function Admin() {
           onClick={() => { setActiveTab('reports'); setEditing(null); setForm({}); }}
         >
           Signalements
+        </button>
+        <button
+          className={activeTab === 'users' ? 'active' : ''}
+          onClick={() => { setActiveTab('users'); setEditing(null); setForm({}); }}
+        >
+          Utilisateurs
         </button>
       </div>
 
@@ -214,15 +257,26 @@ export default function Admin() {
             </div>
 
             <div className="form-group">
+              <div className="upload-container">
+                <input
+                  placeholder="Cover image URL"
+                  value={form.coverImage || ''}
+                  onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))}
+                />
+                <label className="upload-btn">
+                  {uploading ? '...' : 'Upload'}
+                  <input type="file" onChange={handleFileUpload} hidden />
+                </label>
+              </div>
               <input
-                placeholder="Cover image URL"
-                value={form.coverImage || ''}
-                onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))}
-              />
-              <input
-                placeholder="Trailer URL (YouTube embed)"
+                placeholder="YouTube Trailer 1"
                 value={form.trailerUrl || ''}
                 onChange={e => setForm(f => ({ ...f, trailerUrl: e.target.value }))}
+              />
+              <input
+                placeholder="YouTube Trailer 2 (Optionnel)"
+                value={form.trailerUrl2 || ''}
+                onChange={e => setForm(f => ({ ...f, trailerUrl2: e.target.value }))}
               />
             </div>
 
@@ -395,6 +449,37 @@ export default function Admin() {
                     <option value="resolved">Résolu</option>
                     <option value="dismissed">Rejeté</option>
                   </select>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {activeTab === 'users' && (
+        <div className="admin-section">
+          <h3>Gestion des Utilisateurs</h3>
+          <div className="admin-list users-list">
+            {(users || []).map(u => (
+              <div key={u._id} className="admin-item user-item">
+                <div className="user-info">
+                  <div className="avatar-mini">
+                    {u.avatar ? <img src={u.avatar} alt="" /> : <div className="avatar-placeholder">{u.username[0].toUpperCase()}</div>}
+                  </div>
+                  <div className="user-details">
+                    <strong>{u.username}</strong>
+                    <span className="user-email">{u.email}</span>
+                    <span className={`user-role ${u.role}`}>{u.role}</span>
+                  </div>
+                </div>
+                <div className="item-actions">
+                  {u.role !== 'admin' && (
+                    <button
+                      className={u.isBanned ? 'success' : 'danger'}
+                      onClick={() => handleBanUser(u._id)}
+                    >
+                      {u.isBanned ? 'Débannir' : 'Bannir'}
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

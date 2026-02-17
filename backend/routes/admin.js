@@ -7,8 +7,69 @@ const Notification = require('../models/Notification');
 const Report = require('../models/Report');
 const { protect, admin } = require('../middleware/auth');
 
+const path = require('path');
+const multer = require('multer');
+
+// Configure multer for game covers
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `game-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only images are allowed!'), false);
+    }
+  },
+  limits: { fileSize: 1024 * 1024 * 10 } // 10MB limit
+});
+
 router.use(protect);
 router.use(admin);
+
+// Game cover upload
+router.post('/games/upload-cover', upload.single('coverImage'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  res.json({ url: fileUrl });
+});
+
+// Users management
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.patch('/users/:id/ban', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (user.role === 'admin') {
+      return res.status(403).json({ message: 'Cannot ban an admin' });
+    }
+
+    user.isBanned = !user.isBanned;
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Games management
 router.get('/games', async (req, res) => {

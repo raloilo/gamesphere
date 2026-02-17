@@ -54,6 +54,9 @@ const gameSchema = new mongoose.Schema({
   trailerUrl: {
     type: String
   },
+  trailerUrl2: {
+    type: String
+  },
   trailerUrls: [{
     type: String
   }],
@@ -79,7 +82,7 @@ const gameSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-gameSchema.pre('save', function(next) {
+gameSchema.pre('save', function (next) {
   if (this.isModified('name') && !this.slug) {
     this.slug = this.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
   }

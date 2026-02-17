@@ -74,7 +74,7 @@ const games = [
     platforms: ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile'],
     releaseDate: new Date('2017-09-26'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+    coverImage: 'https://cdn2.unrealengine.com/fortnite-battle-royale-chapter-5-season-2-1920x1080-6008298f0e0f.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -100,7 +100,7 @@ const games = [
     platforms: ['PC', 'PlayStation', 'Xbox'],
     releaseDate: new Date('2020-03-10'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1962660/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -201,7 +201,7 @@ const games = [
     platforms: ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch'],
     releaseDate: new Date('2023-09-29'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1543326727-cf6c39e8e8b0?w=800',
       'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800',
@@ -226,7 +226,7 @@ const games = [
     platforms: ['PC'],
     releaseDate: new Date('2020-06-02'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+    coverImage: 'https://cmsassets.rgpub.io/assets/vpb/vg-1/overview/valorant-key-art.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -252,7 +252,7 @@ const games = [
     platforms: ['PC'],
     releaseDate: new Date('2009-10-27'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=800',
+    coverImage: 'https://www.leagueoflegends.com/static/open-graph-2e582ae9fae8b0b396ca46ff21fd47a8.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -354,7 +354,7 @@ const games = [
     platforms: ['PlayStation', 'PC'],
     releaseDate: new Date('2022-11-09'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2322010/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511882150382-421056c89033?w=800',
@@ -380,7 +380,7 @@ const games = [
     platforms: ['PlayStation'],
     releaseDate: new Date('2023-10-20'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1817190/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -406,7 +406,7 @@ const games = [
     platforms: ['PC', 'PlayStation', 'Xbox'],
     releaseDate: new Date('2023-10-05'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2459450/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -658,7 +658,7 @@ const games = [
     platforms: ['PlayStation', 'PC'],
     releaseDate: new Date('2022-02-18'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2420110/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
@@ -684,7 +684,7 @@ const games = [
     platforms: ['PlayStation', 'PC'],
     releaseDate: new Date('2018-04-20'),
     isUpcoming: false,
-    coverImage: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',
+    coverImage: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1151640/header.jpg',
     screenshots: [
       'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800',
       'https://images.unsplash.com/photo-1511882150382-421056c89033?w=800',
@@ -810,10 +810,10 @@ const games = [
 ];
 
 const newsItems = [
-  { title: 'GTA VI Release Date Announced', slug: 'gta-vi-release-date-announced', excerpt: 'Rockstar Games has finally revealed the release date for the highly anticipated GTA VI.', content: 'After years of speculation, Rockstar Games has confirmed that Grand Theft Auto VI will launch on November 19, 2026. The game returns to Vice City (Leonida) with Lucia and Jason as the franchise\'s first dual protagonists. The release was delayed to ensure the level of polish expected from Rockstar.', category: 'Release', featured: true, image: 'https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=800' },
-  { title: 'God of War Ragnarök Valhalla DLC Released', slug: 'god-of-war-ragnarok-valhalla-dlc-released', excerpt: 'Santa Monica Studio releases free roguelike DLC for God of War Ragnarök.', content: 'The Valhalla DLC brings roguelike gameplay to the Norse saga. Players can expect new challenges, rewards, and deeper story content exploring Kratos\' past.', category: 'Update', featured: true, image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800' },
-  { title: 'Horizon Forbidden West PC Port Confirmed', slug: 'horizon-forbidden-west-pc-port-confirmed', excerpt: 'Guerrilla Games brings Aloy to PC in 2024.', content: 'The acclaimed open-world action RPG is coming to PC with enhanced graphics, ultrawide support, and full customization options.', category: 'News', featured: true, image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800' },
-  { title: 'Baldur\'s Gate 3 Wins Game of the Year', slug: 'baldurs-gate-3-wins-game-of-the-year', excerpt: 'Larian Studios\' RPG sweeps The Game Awards 2023.', content: 'Baldur\'s Gate 3 took home Game of the Year, Best RPG, Best Multiplayer, and Best Community Support at The Game Awards, cementing its place as a modern classic.', category: 'News', featured: true, image: 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=800' },
+  { title: 'GTA VI Release Date Announced', slug: 'gta-vi-release-date-announced', excerpt: 'Rockstar Games has finally revealed the release date for the highly anticipated GTA VI.', content: 'After years of speculation, Rockstar Games has confirmed that Grand Theft Auto VI will launch on November 19, 2026. The game returns to Vice City (Leonida) with Lucia and Jason as the franchise\'s first dual protagonists. The release was delayed to ensure the level of polish expected from Rockstar.', category: 'Release', featured: true, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg' },
+  { title: 'God of War Ragnarök Valhalla DLC Released', slug: 'god-of-war-ragnarok-valhalla-dlc-released', excerpt: 'Santa Monica Studio releases free roguelike DLC for God of War Ragnarök.', content: 'The Valhalla DLC brings roguelike gameplay to the Norse saga. Players can expect new challenges, rewards, and deeper story content exploring Kratos\' past.', category: 'Update', featured: true, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2322010/header.jpg' },
+  { title: 'Horizon Forbidden West PC Port Confirmed', slug: 'horizon-forbidden-west-pc-port-confirmed', excerpt: 'Guerrilla Games brings Aloy to PC in 2024.', content: 'The acclaimed open-world action RPG is coming to PC with enhanced graphics, ultrawide support, and full customization options.', category: 'News', featured: true, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2420110/header.jpg' },
+  { title: 'Baldur\'s Gate 3 Wins Game of the Year', slug: 'baldurs-gate-3-wins-game-of-the-year', excerpt: 'Larian Studios\' RPG sweeps The Game Awards 2023.', content: 'Baldur\'s Gate 3 took home Game of the Year, Best RPG, Best Multiplayer, and Best Community Support at The Game Awards, cementing its place as a modern classic.', category: 'News', featured: true, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg' },
   { title: '2024 Gaming Industry Trends', slug: '2024-gaming-industry-trends', excerpt: 'A look at what to expect in the gaming world this year.', content: 'AI integration, cloud gaming expansion, and next-gen exclusives dominate the 2024 landscape. Indie games continue to thrive alongside blockbuster releases.', category: 'Industry', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800' }
 ];
 

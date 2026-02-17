@@ -48,16 +48,20 @@ const userSchema = new mongoose.Schema({
   notifyUpdates: {
     type: Boolean,
     default: true
+  },
+  isBanned: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
