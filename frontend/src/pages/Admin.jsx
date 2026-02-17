@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import './Admin.css';
 
@@ -16,33 +15,11 @@ export default function Admin() {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
   useEffect(() => {
     loadData();
   }, [activeTab]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const editId = params.get('edit');
-    const tab = params.get('tab');
 
-    if (tab) setActiveTab(tab);
-
-    if (editId) {
-      setEditing(editId);
-      // We might need to fetch the single game if it's not in the list yet
-      // but for now, we'll try to find it in the loaded games
-    }
-  }, [location.search]);
-
-  useEffect(() => {
-    if (editing && games.length > 0) {
-      const g = games.find(x => x._id === editing);
-      if (g) setForm(g);
-    }
-  }, [editing, games]);
 
   const loadData = async () => {
     setLoading(true);
@@ -374,14 +351,7 @@ export default function Admin() {
                   </div>
                   <div className="item-actions">
                     <button onClick={() => { setEditing(g._id); setForm(g); }}>Edit</button>
-                    <a
-                      href={`/admin?tab=games&edit=${g._id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="action-link"
-                    >
-                      ↗ New Tab
-                    </a>
+
                     <button className="danger" onClick={() => handleDelete('games', g._id)}>Delete</button>
                   </div>
                 </div>

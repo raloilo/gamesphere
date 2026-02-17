@@ -193,24 +193,7 @@
   color: #ff6666;
 }
 
-.action-link {
-  display: flex;
-  align-items: center;
-  padding: 0.4rem 0.75rem;
-  background: rgba(0, 255, 255, 0.1);
-  border: 1px solid var(--accent-cyan);
-  border-radius: 6px;
-  color: var(--accent-cyan);
-  font-size: 0.8rem;
-  text-decoration: none;
-  transition: all 0.2s;
-  font-weight: 500;
-}
 
-.action-link:hover {
-  background: var(--accent-cyan);
-  color: var(--bg-primary);
-}
 
 .reports-list .admin-item {
   flex-wrap: wrap;
