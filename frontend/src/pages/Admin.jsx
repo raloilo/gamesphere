@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import './Admin.css';
 
@@ -13,10 +14,35 @@ export default function Admin() {
   const [editing, setEditing] = useState(null);
   const [users, setUsers] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadData();
   }, [activeTab]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const editId = params.get('edit');
+    const tab = params.get('tab');
+
+    if (tab) setActiveTab(tab);
+
+    if (editId) {
+      setEditing(editId);
+      // We might need to fetch the single game if it's not in the list yet
+      // but for now, we'll try to find it in the loaded games
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    if (editing && games.length > 0) {
+      const g = games.find(x => x._id === editing);
+      if (g) setForm(g);
+    }
+  }, [editing, games]);
 
   const loadData = async () => {
     setLoading(true);
@@ -121,7 +147,17 @@ export default function Admin() {
     <div className="admin-page">
       <div className="page-header">
         <h1>Admin Panel</h1>
-        <p>Manage games, news, and content</p>
+        <div className="header-actions">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder={`Rechercher dans ${activeTab}...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <p>Manage games, news, and content</p>
+        </div>
       </div>
 
       {stats && (
@@ -327,19 +363,29 @@ export default function Admin() {
           </form>
 
           <div className="admin-list">
-            {(Array.isArray(games) ? games : []).map(g => (
-              <div key={g._id} className="admin-item">
-                <img src={g.coverImage} alt="" />
-                <div>
-                  <strong>{g.name}</strong>
-                  <span>{g.category}</span>
+            {(Array.isArray(games) ? games : [])
+              .filter(g => g.name.toLowerCase().includes(searchQuery.toLowerCase()) || g.category.toLowerCase().includes(searchQuery.toLowerCase()))
+              .map(g => (
+                <div key={g._id} className="admin-item">
+                  <img src={g.coverImage} alt="" />
+                  <div>
+                    <strong>{g.name}</strong>
+                    <span>{g.category}</span>
+                  </div>
+                  <div className="item-actions">
+                    <button onClick={() => { setEditing(g._id); setForm(g); }}>Edit</button>
+                    <a
+                      href={`/admin?tab=games&edit=${g._id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="action-link"
+                    >
+                      ↗ New Tab
+                    </a>
+                    <button className="danger" onClick={() => handleDelete('games', g._id)}>Delete</button>
+                  </div>
                 </div>
-                <div className="item-actions">
-                  <button onClick={() => { setEditing(g._id); setForm(g); }}>Edit</button>
-                  <button className="danger" onClick={() => handleDelete('games', g._id)}>Delete</button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}
@@ -398,19 +444,21 @@ export default function Admin() {
           </form>
 
           <div className="admin-list">
-            {(Array.isArray(news) ? news : []).map(n => (
-              <div key={n._id} className="admin-item">
-                <img src={n.image} alt="" />
-                <div>
-                  <strong>{n.title}</strong>
-                  <span>{n.category}</span>
+            {(Array.isArray(news) ? news : [])
+              .filter(n => n.title.toLowerCase().includes(searchQuery.toLowerCase()) || n.category.toLowerCase().includes(searchQuery.toLowerCase()))
+              .map(n => (
+                <div key={n._id} className="admin-item">
+                  <img src={n.image} alt="" />
+                  <div>
+                    <strong>{n.title}</strong>
+                    <span>{n.category}</span>
+                  </div>
+                  <div className="item-actions">
+                    <button onClick={() => { setEditing(n._id); setForm(n); }}>Edit</button>
+                    <button className="danger" onClick={() => handleDelete('news', n._id)}>Delete</button>
+                  </div>
                 </div>
-                <div className="item-actions">
-                  <button onClick={() => { setEditing(n._id); setForm(n); }}>Edit</button>
-                  <button className="danger" onClick={() => handleDelete('news', n._id)}>Delete</button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}
@@ -459,30 +507,32 @@ export default function Admin() {
         <div className="admin-section">
           <h3>Gestion des Utilisateurs</h3>
           <div className="admin-list users-list">
-            {(users || []).map(u => (
-              <div key={u._id} className="admin-item user-item">
-                <div className="user-info">
-                  <div className="avatar-mini">
-                    {u.avatar ? <img src={u.avatar} alt="" /> : <div className="avatar-placeholder">{u.username[0].toUpperCase()}</div>}
+            {(users || [])
+              .filter(u => u.username.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()))
+              .map(u => (
+                <div key={u._id} className="admin-item user-item">
+                  <div className="user-info">
+                    <div className="avatar-mini">
+                      {u.avatar ? <img src={u.avatar} alt="" /> : <div className="avatar-placeholder">{u.username[0].toUpperCase()}</div>}
+                    </div>
+                    <div className="user-details">
+                      <strong>{u.username}</strong>
+                      <span className="user-email">{u.email}</span>
+                      <span className={`user-role ${u.role}`}>{u.role}</span>
+                    </div>
                   </div>
-                  <div className="user-details">
-                    <strong>{u.username}</strong>
-                    <span className="user-email">{u.email}</span>
-                    <span className={`user-role ${u.role}`}>{u.role}</span>
+                  <div className="item-actions">
+                    {u.role !== 'admin' && (
+                      <button
+                        className={u.isBanned ? 'success' : 'danger'}
+                        onClick={() => handleBanUser(u._id)}
+                      >
+                        {u.isBanned ? 'Débannir' : 'Bannir'}
+                      </button>
+                    )}
                   </div>
                 </div>
-                <div className="item-actions">
-                  {u.role !== 'admin' && (
-                    <button
-                      className={u.isBanned ? 'success' : 'danger'}
-                      onClick={() => handleBanUser(u._id)}
-                    >
-                      {u.isBanned ? 'Débannir' : 'Bannir'}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}
