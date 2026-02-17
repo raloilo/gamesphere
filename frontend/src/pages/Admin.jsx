@@ -14,6 +14,7 @@ export default function Admin() {
   const [users, setUsers] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -56,6 +57,7 @@ export default function Admin() {
       }
       setForm({});
       setEditing(null);
+      setShowModal(false);
       loadData();
     } catch (e) {
       console.error(e);
@@ -72,6 +74,7 @@ export default function Admin() {
       }
       setForm({});
       setEditing(null);
+      setShowModal(false);
       loadData();
     } catch (e) {
       console.error(e);
@@ -161,275 +164,313 @@ export default function Admin() {
       <div className="admin-tabs">
         <button
           className={activeTab === 'games' ? 'active' : ''}
-          onClick={() => { setActiveTab('games'); setEditing(null); setForm({}); }}
+          onClick={() => { setActiveTab('games'); setEditing(null); setForm({}); setShowModal(false); }}
         >
           Games
         </button>
         <button
           className={activeTab === 'news' ? 'active' : ''}
-          onClick={() => { setActiveTab('news'); setEditing(null); setForm({}); }}
+          onClick={() => { setActiveTab('news'); setEditing(null); setForm({}); setShowModal(false); }}
         >
           News
         </button>
         <button
           className={activeTab === 'reports' ? 'active' : ''}
-          onClick={() => { setActiveTab('reports'); setEditing(null); setForm({}); }}
+          onClick={() => { setActiveTab('reports'); setEditing(null); setForm({}); setShowModal(false); }}
         >
           Signalements
         </button>
         <button
           className={activeTab === 'users' ? 'active' : ''}
-          onClick={() => { setActiveTab('users'); setEditing(null); setForm({}); }}
+          onClick={() => { setActiveTab('users'); setEditing(null); setForm({}); setShowModal(false); }}
         >
           Utilisateurs
         </button>
       </div>
 
       {activeTab === 'games' && (
-        <div className="admin-section">
-          <form className="admin-form" onSubmit={handleSaveGame}>
-            <h3>{editing ? 'Edit Game' : 'Add Game'}</h3>
-            <div className="form-group">
-              <input
-                placeholder="Name"
-                value={form.name || ''}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <input
-                placeholder="Developer"
-                value={form.developer || ''}
-                onChange={e => setForm(f => ({ ...f, developer: e.target.value }))}
-              />
-              <input
-                placeholder="Publisher"
-                value={form.publisher || ''}
-                onChange={e => setForm(f => ({ ...f, publisher: e.target.value }))}
-              />
-            </div>
-
-            <div className="form-group">
-              <input
-                placeholder="Short description"
-                value={form.shortDescription || ''}
-                onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))}
-              />
-            </div>
-
-            <textarea
-              placeholder="Description"
-              value={form.description || ''}
-              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-              required
-            />
-
-            <div className="form-group">
-              <select
-                value={form.category || ''}
-                onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-              >
-                <option value="">Category</option>
-                {['Action', 'Adventure', 'RPG', 'Sports', 'Racing', 'Shooter', 'Strategy', 'Simulation', 'Horror', 'Indie', 'Other'].map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-
-              <input
-                type="date"
-                placeholder="Release date"
-                value={form.releaseDate ? form.releaseDate.split('T')[0] : ''}
-                onChange={e => setForm(f => ({ ...f, releaseDate: e.target.value }))}
-                required
-              />
-            </div>
-
-            <div className="form-group platforms-group">
-              <label>Platforms:</label>
-              <div className="platforms-options">
-                {['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile'].map(p => (
-                  <label key={p} className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={form.platforms?.includes(p) || false}
-                      onChange={e => {
-                        const platforms = form.platforms || [];
-                        if (e.target.checked) {
-                          setForm(f => ({ ...f, platforms: [...platforms, p] }));
-                        } else {
-                          setForm(f => ({ ...f, platforms: platforms.filter(Plat => Plat !== p) }));
-                        }
-                      }}
-                    />
-                    {p}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-group">
-              <div className="upload-container">
-                <input
-                  placeholder="Cover image URL"
-                  value={form.coverImage || ''}
-                  onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))}
-                />
-                <label className="upload-btn">
-                  {uploading ? '...' : 'Upload'}
-                  <input type="file" onChange={handleFileUpload} hidden />
-                </label>
-              </div>
-              <input
-                placeholder="YouTube Trailer 1"
-                value={form.trailerUrl || ''}
-                onChange={e => setForm(f => ({ ...f, trailerUrl: e.target.value }))}
-              />
-              <input
-                placeholder="YouTube Trailer 2 (Optionnel)"
-                value={form.trailerUrl2 || ''}
-                onChange={e => setForm(f => ({ ...f, trailerUrl2: e.target.value }))}
-              />
-            </div>
-
-            <div className="form-group">
-              <textarea
-                placeholder="Screenshots URLs (one per line)"
-                value={Array.isArray(form.screenshots) ? form.screenshots.join('\n') : (form.screenshots || '')}
-                onChange={e => setForm(f => ({ ...f, screenshots: e.target.value.split('\n') }))}
-                rows={3}
-              />
-            </div>
-
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={form.isUpcoming || false}
-                  onChange={e => setForm(f => ({ ...f, isUpcoming: e.target.checked }))}
-                />
-                Upcoming
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={form.trending || false}
-                  onChange={e => setForm(f => ({ ...f, trending: e.target.checked }))}
-                />
-                Trending
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={form.featured || false}
-                  onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))}
-                />
-                Featured
-              </label>
-            </div>
-
-            <div className="form-actions">
-              <button type="submit">Save</button>
-              {editing && (
-                <button type="button" onClick={() => { setEditing(null); setForm({}); }}>
-                  Cancel
-                </button>
-              )}
-            </div>
-          </form>
+        <div className="admin-section full-width">
+          <div className="section-header">
+            <h3>Liste des Jeux</h3>
+            <button className="add-btn" onClick={() => { setForm({}); setEditing(null); setShowModal(true); }}>
+              + Ajouter un Jeu
+            </button>
+          </div>
 
           <div className="admin-list">
             {(Array.isArray(games) ? games : [])
               .filter(g => g.name.toLowerCase().includes(searchQuery.toLowerCase()) || g.category.toLowerCase().includes(searchQuery.toLowerCase()))
               .map(g => (
-                <div key={g._id} className="admin-item">
+                <div key={g._id} className="admin-item clickable" onClick={() => { setEditing(g._id); setForm(g); setShowModal(true); }}>
                   <img src={g.coverImage} alt="" />
-                  <div>
+                  <div className="item-info">
                     <strong>{g.name}</strong>
                     <span>{g.category}</span>
                   </div>
                   <div className="item-actions">
-                    <button onClick={() => { setEditing(g._id); setForm(g); }}>Edit</button>
-
-                    <button className="danger" onClick={() => handleDelete('games', g._id)}>Delete</button>
+                    <button className="danger" onClick={(e) => { e.stopPropagation(); handleDelete('games', g._id); }}>Delete</button>
                   </div>
                 </div>
               ))}
           </div>
+
+          {showModal && (
+            <div className="modal-overlay" onClick={() => setShowModal(false)}>
+              <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <button className="close-modal" onClick={() => setShowModal(false)}>&times;</button>
+                <form className="admin-form" onSubmit={handleSaveGame}>
+                  <h3>{editing ? 'Modifier le Jeu' : 'Ajouter un Jeu'}</h3>
+
+                  {form.coverImage && (
+                    <div className="form-image-preview">
+                      <img src={form.coverImage} alt="Preview" />
+                    </div>
+                  )}
+
+                  <div className="form-group">
+                    <input
+                      placeholder="Nom du jeu"
+                      value={form.name || ''}
+                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <input
+                      placeholder="Développeur"
+                      value={form.developer || ''}
+                      onChange={e => setForm(f => ({ ...f, developer: e.target.value }))}
+                    />
+                    <input
+                      placeholder="Éditeur"
+                      value={form.publisher || ''}
+                      onChange={e => setForm(f => ({ ...f, publisher: e.target.value }))}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <input
+                      placeholder="Description courte"
+                      value={form.shortDescription || ''}
+                      onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))}
+                    />
+                  </div>
+
+                  <textarea
+                    placeholder="Description complète"
+                    value={form.description || ''}
+                    onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                    required
+                  />
+
+                  <div className="form-group">
+                    <select
+                      value={form.category || ''}
+                      onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                    >
+                      <option value="">Catégorie</option>
+                      {['Action', 'Adventure', 'RPG', 'Sports', 'Racing', 'Shooter', 'Strategy', 'Simulation', 'Horror', 'Indie', 'Other'].map(c => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+
+                    <input
+                      type="date"
+                      placeholder="Date de sortie"
+                      value={form.releaseDate ? form.releaseDate.split('T')[0] : ''}
+                      onChange={e => setForm(f => ({ ...f, releaseDate: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group platforms-group">
+                    <label>Plateformes :</label>
+                    <div className="platforms-options">
+                      {['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile'].map(p => (
+                        <label key={p} className="checkbox-label">
+                          <input
+                            type="checkbox"
+                            checked={form.platforms?.includes(p) || false}
+                            onChange={e => {
+                              const platforms = form.platforms || [];
+                              if (e.target.checked) {
+                                setForm(f => ({ ...f, platforms: [...platforms, p] }));
+                              } else {
+                                setForm(f => ({ ...f, platforms: platforms.filter(Plat => Plat !== p) }));
+                              }
+                            }}
+                          />
+                          {p}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <div className="upload-container">
+                      <input
+                        placeholder="URL de l'image de couverture"
+                        value={form.coverImage || ''}
+                        onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))}
+                      />
+                      <label className="upload-btn">
+                        {uploading ? '...' : 'Upload'}
+                        <input type="file" onChange={handleFileUpload} hidden />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <input
+                      placeholder="URL Trailer YouTube 1"
+                      value={form.trailerUrl || ''}
+                      onChange={e => setForm(f => ({ ...f, trailerUrl: e.target.value }))}
+                    />
+                    <input
+                      placeholder="URL Trailer YouTube 2 (Optionnel)"
+                      value={form.trailerUrl2 || ''}
+                      onChange={e => setForm(f => ({ ...f, trailerUrl2: e.target.value }))}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <textarea
+                      placeholder="URLs des captures d'écran (une par ligne)"
+                      value={Array.isArray(form.screenshots) ? form.screenshots.join('\n') : (form.screenshots || '')}
+                      onChange={e => setForm(f => ({ ...f, screenshots: e.target.value.split('\n') }))}
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="checkbox-group">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={form.isUpcoming || false}
+                        onChange={e => setForm(f => ({ ...f, isUpcoming: e.target.checked }))}
+                      />
+                      À venir
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={form.trending || false}
+                        onChange={e => setForm(f => ({ ...f, trending: e.target.checked }))}
+                      />
+                      Tendance
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={form.featured || false}
+                        onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))}
+                      />
+                      Mis en avant
+                    </label>
+                  </div>
+
+                  <div className="form-actions">
+                    <button type="submit">Enregistrer</button>
+                    <button type="button" onClick={() => setShowModal(false)}>
+                      Annuler
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       {activeTab === 'news' && (
-        <div className="admin-section">
-          <form className="admin-form" onSubmit={handleSaveNews}>
-            <h3>{editing ? 'Edit News' : 'Add News'}</h3>
-            <input
-              placeholder="Title"
-              value={form.title || ''}
-              onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-              required
-            />
-            <input
-              placeholder="Excerpt"
-              value={form.excerpt || ''}
-              onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))}
-            />
-            <textarea
-              placeholder="Content"
-              value={form.content || ''}
-              onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-              required
-            />
-            <select
-              value={form.category || ''}
-              onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-            >
-              <option value="">Category</option>
-              {['News', 'Review', 'Update', 'Release', 'Industry'].map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-            <input
-              placeholder="Image URL"
-              value={form.image || ''}
-              onChange={e => setForm(f => ({ ...f, image: e.target.value }))}
-            />
-            <label>
-              <input
-                type="checkbox"
-                checked={form.featured || false}
-                onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))}
-              />
-              Featured
-            </label>
-            <div className="form-actions">
-              <button type="submit">Save</button>
-              {editing && (
-                <button type="button" onClick={() => { setEditing(null); setForm({}); }}>
-                  Cancel
-                </button>
-              )}
-            </div>
-          </form>
+        <div className="admin-section full-width">
+          <div className="section-header">
+            <h3>Actualités</h3>
+            <button className="add-btn" onClick={() => { setForm({}); setEditing(null); setShowModal(true); }}>
+              + Ajouter une News
+            </button>
+          </div>
 
           <div className="admin-list">
             {(Array.isArray(news) ? news : [])
               .filter(n => n.title.toLowerCase().includes(searchQuery.toLowerCase()) || n.category.toLowerCase().includes(searchQuery.toLowerCase()))
               .map(n => (
-                <div key={n._id} className="admin-item">
+                <div key={n._id} className="admin-item clickable" onClick={() => { setEditing(n._id); setForm(n); setShowModal(true); }}>
                   <img src={n.image} alt="" />
-                  <div>
+                  <div className="item-info">
                     <strong>{n.title}</strong>
                     <span>{n.category}</span>
                   </div>
                   <div className="item-actions">
-                    <button onClick={() => { setEditing(n._id); setForm(n); }}>Edit</button>
-                    <button className="danger" onClick={() => handleDelete('news', n._id)}>Delete</button>
+                    <button className="danger" onClick={(e) => { e.stopPropagation(); handleDelete('news', n._id); }}>Delete</button>
                   </div>
                 </div>
               ))}
           </div>
+
+          {showModal && (
+            <div className="modal-overlay" onClick={() => setShowModal(false)}>
+              <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <button className="close-modal" onClick={() => setShowModal(false)}>&times;</button>
+                <form className="admin-form" onSubmit={handleSaveNews}>
+                  <h3>{editing ? 'Modifier la News' : 'Ajouter une News'}</h3>
+
+                  {form.image && (
+                    <div className="form-image-preview">
+                      <img src={form.image} alt="Preview" />
+                    </div>
+                  )}
+
+                  <input
+                    placeholder="Titre"
+                    value={form.title || ''}
+                    onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                    required
+                  />
+                  <input
+                    placeholder="Extrait"
+                    value={form.excerpt || ''}
+                    onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))}
+                  />
+                  <textarea
+                    placeholder="Contenu"
+                    value={form.content || ''}
+                    onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
+                    required
+                  />
+                  <select
+                    value={form.category || ''}
+                    onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                  >
+                    <option value="">Catégorie</option>
+                    {['News', 'Review', 'Update', 'Release', 'Industry'].map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                  <input
+                    placeholder="URL de l'image"
+                    value={form.image || ''}
+                    onChange={e => setForm(f => ({ ...f, image: e.target.value }))}
+                  />
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={form.featured || false}
+                      onChange={e => setForm(f => ({ ...f, featured: e.target.checked }))}
+                    />
+                    Mis en avant
+                  </label>
+                  <div className="form-actions">
+                    <button type="submit">Enregistrer</button>
+                    <button type="button" onClick={() => setShowModal(false)}>
+                      Annuler
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
